@@ -1,0 +1,128 @@
+
+Guess the number 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Devine le Nombre</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #373b44, #4286f4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      margin: 0;
+    }
+
+    .game {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 80px;
+      border-radius: 6px;
+      border: none;
+      text-align: center;
+    }
+
+    button {
+      margin-left: 10px;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      background: #f39c12;
+      color: white;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+      min-height: 24px;
+    }
+
+    .score {
+      margin-top: 10px;
+    }
+
+    .reset {
+      margin-top: 20px;
+      background: #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Devine le Nombre (0 - 100)</h1>
+    <input type="number" id="guessInput" placeholder="?" />
+    <button onclick="checkGuess()">Valider</button>
+    <div class="message" id="message"></div>
+    <div class="score" id="score">Score : 10</div>
+    <button class="reset" onclick="resetGame()">Rejouer</button>
+  </div>
+
+  <script>
+    let secret = Math.floor(Math.random() * 101);
+    let score = 10;
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById("guessInput").value);
+      const msg = document.getElementById("message");
+
+      if (isNaN(guess)) {
+        msg.textContent = "Tape un nombre valide !";
+        return;
+      }
+
+      if (guess < 0 || guess > 100) {
+        msg.textContent = "Entre 0 et 100 uniquement.";
+        return;
+      }
+
+      if (guess === secret) {
+        msg.textContent = "Bravo ! Tu as trouvé !";
+        msg.style.color = "#2ecc71";
+      } else {
+        if (score > 1) {
+          msg.textContent = guess > secret ? "Trop haut !" : "Trop bas !";
+          msg.style.color = "white";
+          score--;
+        } else {
+          msg.textContent = "Perdu ! Le nombre était " + secret;
+          msg.style.color = "#e74c3c";
+          score = 0;
+        }
+      }
+
+      document.getElementById("score").textContent = "Score : " + score;
+    }
+
+    function resetGame() {
+      secret = Math.floor(Math.random() * 101);
+      score = 10;
+      document.getElementById("score").textContent = "Score : 10";
+      document.getElementById("message").textContent = "";
+      document.getElementById("guessInput").value = "";
+      document.getElementById("message").style.color = "white";
+    }
+  </script>
+</body>
+</html>
